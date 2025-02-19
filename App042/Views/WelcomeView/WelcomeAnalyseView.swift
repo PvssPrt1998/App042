@@ -50,6 +50,7 @@ struct WelcomeAnalyseView: View {
             Text("Please wait. the account is\nbeing analyzed…")
                 .font(.system(size: 28, weight: .bold))
                 .foregroundColor(.white)
+                .multilineTextAlignment(.center)
             Image("WelcomeAnalyseImage")
                 .resizable()
                 .scaledToFit()

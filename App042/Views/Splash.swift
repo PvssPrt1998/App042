@@ -11,6 +11,11 @@ struct Splash: View {
         ZStack {
             Color.bgMain.ignoresSafeArea()
 
+            Image("appiconSplash")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 160, height: 160)
+            
             RoundedRectangle(cornerRadius: 4)
                 .fill(Color.white.opacity(0.1))
                 .frame(width: 128, height: 8)
@@ -27,7 +32,13 @@ struct Splash: View {
             source.load { loaded in
                 if loaded {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        screen = .onboarding
+                        if firstLaunch {
+                            firstLaunch = false
+                            screen = .onboarding
+                        } else {
+                            screen = .welcome
+                        }
+                        
                     }
                 }
             }

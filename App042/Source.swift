@@ -118,6 +118,7 @@ final class Source: ObservableObject {
         let monthDays = daysToFirstDayMonth()
         let yearDays = daysAmountToJan()
         statChartIncreaseBy(days: weekDays, filter: .week) {
+            print(self.currentUser!.followers!)
             self.currentUser!.followersWeekArray.append(self.currentUser!.followers!)
             self.currentUser!.likesWeekArray.append(self.currentUser!.likes!)
             self.currentUser!.viewsWeekArray.append(self.currentUser!.views!)
@@ -296,6 +297,13 @@ final class Source: ObservableObject {
     }
     
     func countViewsWithVideoStat(_ videoStats: [VideoStat]) -> Int {
+        let a = videoStats.map { stat in
+            guard let views = stat.views else { return 0 }
+            return views
+        }.reduce(0, +)
+        print("count views \(a)")
+            
+            
         return videoStats.map { stat in
             guard let views = stat.views else { return 0 }
             return views
@@ -324,11 +332,13 @@ final class Source: ObservableObject {
     
     func checkStoreCheckUserRequest(_ nickname: String, completion: @escaping (UserResponse) -> Void, errorHandler: @escaping () -> Void) {
         getUserRequest(nickname) { userResponse in
+            print(userResponse)
             UserDefaults.standard.set(self.dateToString(Date()), forKey: "RefreshDate")
             if userResponse.detail == "Not Found" || userResponse.id == nil {
                 self.storeUserRequest(nickname) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
                         self.getUserRequest(nickname) { userResponse in
+                            print(userResponse)
                             completion(userResponse)
                         } errorHandler: {
                             errorHandler()
@@ -350,7 +360,7 @@ final class Source: ObservableObject {
             self.getCurrentStatBy(nickname: nickname) { statResponse in
                 self.statIncreaseBy(days: self.daysToMonday(), filter: .week) {
                     self.statIncreaseBy(days: self.daysToFirstDayMonth(), filter: .month) {
-                        print(self.monthCurrentUser?.followers)
+                        print("month current User followers \(self.monthCurrentUser?.followers)")
                         self.statIncreaseBy(days: self.daysAmountToJan(), filter: .year) {
                             self.statIncreaseBy(days: 9999, filter: .allTime) {
                                 completion()
@@ -403,6 +413,7 @@ final class Source: ObservableObject {
             
             do {
                 let statResponse = try JSONDecoder().decode(StatResponse.self, from: responseData)
+                print(statResponse)
                 var isSet = false
                 if filter == .week {
                     daysI -= 1
@@ -445,7 +456,7 @@ final class Source: ObservableObject {
                     }
                 } else if filter == .year {
                     daysI -= 30
-                    print(daysI)
+
                     isSet = self.yearChartFill(statResponse)
                     if isSet {
                         if daysI >= 1 {
@@ -490,6 +501,7 @@ final class Source: ObservableObject {
     }
     
     func weekChartFill(_ statResponse: StatResponse) -> Bool {
+        print("week chart fill \(statResponse)")
         if statResponse.detail != "Not Found" || statResponse.userStats != nil,
            let currentUser = statResponse.userStats,
            self.currentUser != nil,

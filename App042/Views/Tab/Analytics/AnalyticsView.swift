@@ -33,19 +33,21 @@ struct AnalyticsView: View {
     }
     
     private func lowerPadding(min: Int, max: Int) -> CGFloat {
+        print("min max \(min) - \(max)")
         let minRounded = min.roundToLowest
         let maxRounded = max.roundToGreatest
         let dif = min - minRounded
-        if dif == 0 { return 0 }
+        if dif <= 0 { return 0 }
         let yStep = 91 / CGFloat(maxRounded - minRounded)
         return yStep * CGFloat(dif)
     }
     
     private func topPadding(min: Int, max: Int) -> CGFloat {
+        print("upper padding \(min) - \(max)")
         let minRounded = min.roundToLowest
         let maxRounded = max.roundToGreatest
         let dif = maxRounded - max
-        if dif == 0 { return 0 }
+        if dif >= 0 { return 0 }
         let yStep = 91 / CGFloat(maxRounded - minRounded)
         return yStep * CGFloat(dif)
     }
@@ -156,6 +158,9 @@ struct AnalyticsView: View {
         VStack(spacing: 16) {
             chart(title: "Followers", min: source.currentUser?.followersWeekArray.min() ?? source.currentUser?.followersWeekArray.first ?? 0, max: source.currentUser?.followersWeekArray.max() ?? source.currentUser?.followersWeekArray.first ?? 0, array: source.currentUser?.followersWeekArray ?? [])
             chart(title: "Likes", min: source.currentUser?.likesWeekArray.min() ?? source.currentUser?.likesWeekArray.first ?? 0, max: source.currentUser?.likesWeekArray.max() ?? source.currentUser?.likesWeekArray.first ?? 0, array: source.currentUser?.likesWeekArray ?? [])
+                .onAppear {
+                    print("views \(source.currentUser?.viewsWeekArray)")
+                }
             if source.currentUser?.views != nil {
                 chart(title: "Views", min: source.currentUser?.viewsWeekArray.min() ?? source.currentUser?.viewsWeekArray.first ?? 0, max: source.currentUser?.viewsWeekArray.max() ?? source.currentUser?.viewsWeekArray.first ?? 0, array: source.currentUser?.viewsWeekArray ?? [])//
             }
@@ -215,6 +220,9 @@ struct AnalyticsView: View {
         .padding(16)
         .background(Color.white.opacity(0.03))
         .clipShape(.rect(cornerRadius: 8))
+        .onAppear {
+            print("chart min max \(min) - \(max)")
+        }
     }
     
     private var chartBottomSide: some View {
@@ -228,6 +236,7 @@ struct AnalyticsView: View {
     }
     
     private func chartStep(min: Int, max: Int) -> Int {
+        print("chart step minmax \(min) - \(max)")
         return (max.roundToGreatest - min.roundToLowest) / 5
     }
     
@@ -239,8 +248,8 @@ struct AnalyticsView: View {
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.white.opacity(0.3))
                     Rectangle()
-                         .fill(Color.white.opacity(0.1))
-                         .frame(width: 12, height: 1)
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: 12, height: 1)
                 }
                 .frame(height: 16)
                 Spacer()
@@ -249,8 +258,8 @@ struct AnalyticsView: View {
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.white.opacity(0.3))
                     Rectangle()
-                         .fill(Color.white.opacity(0.1))
-                         .frame(width: 12, height: 1)
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: 12, height: 1)
                 }
                 .frame(height: 16)
                 .hidden()
@@ -260,8 +269,8 @@ struct AnalyticsView: View {
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.white.opacity(0.3))
                     Rectangle()
-                         .fill(Color.white.opacity(0.1))
-                         .frame(width: 12, height: 1)
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: 12, height: 1)
                 }
                 .frame(height: 16)
                 .hidden()
@@ -271,8 +280,8 @@ struct AnalyticsView: View {
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.white.opacity(0.3))
                     Rectangle()
-                         .fill(Color.white.opacity(0.1))
-                         .frame(width: 12, height: 1)
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: 12, height: 1)
                 }
                 .frame(height: 16)
                 .hidden()
@@ -282,18 +291,21 @@ struct AnalyticsView: View {
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.white.opacity(0.3))
                     Rectangle()
-                         .fill(Color.white.opacity(0.1))
-                         .frame(width: 12, height: 1)
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: 12, height: 1)
                 }
             }
             .padding(.bottom, 10)
             
             Rectangle()
-                 .fill(Color.white.opacity(0.1))
-                 .frame(width: 1)
+                .fill(Color.white.opacity(0.1))
+                .frame(width: 1)
         }
         .padding(.bottom, 28)
         .frame(height: 140)
+        .onAppear {
+            print("chart leftSide onAppear \(min) - \(max)")
+        }
     }
 }
 

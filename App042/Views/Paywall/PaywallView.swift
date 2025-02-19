@@ -46,10 +46,12 @@ struct PaywallView: View {
             Text("Analyze your TikTok")
                 .font(.system(size: 28, weight: .bold))
                 .foregroundColor(.white)
+                .shadow(color: .black, radius: 3)
             Text("Get advanced statistics with your PRO account. Keep an eye on the charts and invent a strategy for your promotion.")
                 .font(.system(size: 17, weight: .regular))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
+                .shadow(color: .black, radius: 3)
                 .padding(.bottom, 16)
             
             paywallSelection

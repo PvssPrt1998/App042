@@ -30,7 +30,7 @@ struct WelcomeView: View {
     private var upperView: some View {
         VStack(spacing: 16) {
             Text("Welcome to Tik Stat Helper")
-                .font(.system(size: 28, weight: .bold))
+                .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
             Image("WelcomeImage")
                 .resizable()

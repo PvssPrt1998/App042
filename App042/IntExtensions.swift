@@ -37,6 +37,10 @@ extension Int {
     }
     
     var roundToLowest: Self {
+        print("roundToLowest \(self)")
+//        if self < 0 {
+//            return 0
+//        }
         var i = self
         var signCounter = 0
         var mostSign = 0
